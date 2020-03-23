@@ -1,114 +1,99 @@
 <template>
+  <v-touch v-on:swipeleft="swiperleft" v-on:swiperight="swiperright" class="wrapper">
   <div>
     <myhead></myhead>
-    <van-tabs swipeable animated sticky>
-      <van-tab title="首页">
-        <van-swipe :autoplay="3000" indicator-color="white">
-          <van-swipe-item v-for="image in images">
-            <van-image class="poster" :src="image" radius="5" />
-          </van-swipe-item>
-        </van-swipe>
-        <van-grid :border="false" :column-num="2" :center="false">
-          <van-grid-item v-for="video in videos">
-            <van-image class="poster" :src="video.img_url" radius="5" />
-            <p>{{video.text}}</p>
-          </van-grid-item>
-        </van-grid>
-      </van-tab>
+    <div class="my-content">
+      <van-tabs swipeable animated sticky @change="tableChange">
+        <van-tab title="首页">
+          <van-swipe :autoplay="3000" indicator-color="white">
+            <van-swipe-item v-for="image in images" :key="image">
+              <van-image class="poster" :src="require('../'+ image)" radius="5"></van-image>
+            </van-swipe-item>
+          </van-swipe>
+          <vue-pull-refresh :on-refresh="onRefresh">
+            <van-grid :border="false" :column-num="2" :center="false">
+              <van-grid-item v-for="(item,index) in article" :key="item.id + '' +index" @click="$router.push('/detail/'+item.id)">
+                <div class="item-content">
+                  <van-image class="poster" :src="item.poster" radius="5"
+                             height="120">
+                    <template v-slot:error>加载失败</template>
+                  </van-image>
+                  <van-divider />
+                  <p>{{item.title}}</p>
+                </div>
 
-      <van-tab title="推荐">
-        <van-grid :border="false" :column-num="2" :center="false">
-          <van-grid-item v-for="video in videos">
-            <van-image class="poster" :src="video.img_url" radius="5" />
-            <p>{{video.text}}</p>
-          </van-grid-item>
-        </van-grid>
-      </van-tab>
+              </van-grid-item>
 
-      <van-tab title="热门">
-        <van-grid :border="false" :column-num="2" :center="false">
-          <van-grid-item v-for="video in videos">
-            <van-image class="poster" :src="video.img_url" radius="5" />
-            <p>{{video.text}}</p>
-          </van-grid-item>
-        </van-grid>
-      </van-tab>
-      <van-tab title="追番">
-        <van-grid :border="false" :column-num="2" :center="false">
-          <van-grid-item v-for="video in videos">
-            <van-image class="poster" :src="video.img_url" radius="5" />
-            <p>{{video.text}}</p>
-          </van-grid-item>
-        </van-grid>
-      </van-tab>
-      <van-tab title="影视">
-        <van-grid :border="false" :column-num="2" :center="false">
-          <van-grid-item v-for="video in videos">
-            <van-image class="poster" :src="video.img_url" radius="5" />
-            <p>{{video.text}}</p>
-          </van-grid-item>
-        </van-grid>
-      </van-tab>
-      <van-tab title="新时代">
-        <van-grid :border="false" :column-num="2" :center="false">
-          <van-grid-item v-for="video in videos">
-            <van-image class="poster" :src="video.img_url" radius="5" />
-            <p>{{video.text}}</p>
-          </van-grid-item>
-        </van-grid>
-      </van-tab>
-      <van-tab title="直播">
-        <van-grid :border="false" :column-num="2" :center="false">
-          <van-grid-item v-for="video in videos">
-            <van-image class="poster" :src="video.img_url" radius="5" />
-            <p>{{video.text}}</p>
-          </van-grid-item>
-        </van-grid>
-      </van-tab>
-    </van-tabs>
+            </van-grid>
+          </vue-pull-refresh>
+
+        </van-tab>
+
+        <van-tab title="推荐">
+          <van-grid :border="false" :column-num="2" :center="false">
+            <img src="../assets/img.jpg" alt="">
+
+          </van-grid>
+        </van-tab>
+
+        <van-tab title="热门">
+
+        </van-tab>
+        <van-tab title="关注">
+
+        </van-tab>
+
+        <van-tab title="最新">
+
+        </van-tab>
+      </van-tabs>
+    </div>
 
     <myfooter></myfooter>
   </div>
+  </v-touch>
 </template>
 
 <script>
 import myhead from '@/components/Head';
 import myfooter from '@/components/Footer';
+import VuePullRefresh from 'vue-pull-refresh';
 export default {
   name: 'index',
   data () {
     return {
       msg: 'Welcome to Your Vue.js App',
-      videos:[{
-        text:'【英雄联盟】战士 – 2020赛季CG动画',
-        img_url:"//i2.hdslb.com/bfs/archive/7eccf6942ea9a9815a9f531d1d8b800b59290e59.jpg@320w_200h.webp"
-      },{
-        text:'【老番茄】史上最憨训练师(第二集)',
-        img_url:"//i1.hdslb.com/bfs/archive/5974de381822b10e733fcb6caf760d066e305ed2.jpg@320w_200h.webp"
-      },{
-        text:'把火影的忍术翻译成中文谐音之后，简直不要太沙雕。',
-        img_url:"//i1.hdslb.com/bfs/archive/436c5a1ed3b3da3ddcb6577ffe1c1604a6b23df6.jpg@320w_200h.webp"
-      },{
-        text:'符华 · [A]ddiction【次世代卡通渲染】',
-        img_url:"//i1.hdslb.com/bfs/archive/e201e57253674f17add823dfbddc89037d3531e4.jpg@320w_200h.webp"
-      },{
-        text:'当年“血洗”QQ空间的神曲，太羞耻了，满满的都是回忆啊！',
-        img_url:"//i0.hdslb.com/bfs/archive/b6cae9f8f55515ba51955df1c8fa150a22feaf91.jpg@320w_200h.webp"
-      },{
-        text:'当年“血洗”QQ空间的神曲，太羞耻了，满满的都是回忆啊！',
-        img_url:"//i0.hdslb.com/bfs/archive/b6cae9f8f55515ba51955df1c8fa150a22feaf91.jpg@320w_200h.webp"
-      },{
-        text:'当年“血洗”QQ空间的神曲，太羞耻了，满满的都是回忆啊！',
-        img_url:"//i0.hdslb.com/bfs/archive/b6cae9f8f55515ba51955df1c8fa150a22feaf91.jpg@320w_200h.webp"
-      },{
-        text:'当年“血洗”QQ空间的神曲，太羞耻了，满满的都是回忆啊！',
-        img_url:"//i0.hdslb.com/bfs/archive/b6cae9f8f55515ba51955df1c8fa150a22feaf91.jpg@320w_200h.webp"
-      }],
-      images:['//i2.hdslb.com/bfs/archive/2e28781080fd7a6d796fb77bff9c70e4cb792af4.jpg',
-      '//i1.hdslb.com/bfs/archive/a8ec43be08a43655fa5bb17d0b5b3ddda40e47c3.jpg']
+      article:[],
+      images:['assets/img.jpg',
+      'assets/img2.jpg']
     }
   },
-  components:{ myhead,myfooter },
+  methods: {
+    swiperleft: function () {
+
+    },
+    swiperright: function () {
+
+    },
+    tableChange(name,title){
+      switch (name) {
+        case 0:this.indexList();break;
+      }
+    },
+    onRefresh(){
+      this.indexList();
+    },
+    async indexList() {
+      let {data : res} = await this.$http.get('/article/list');
+      this.article = res.data.concat(this.article);
+      console.log(this.article);
+    }
+  },
+  created: function () {
+      this.indexList();
+
+  },
+  components:{ myhead,myfooter,'vue-pull-refresh': VuePullRefresh },
 }
 </script>
 
@@ -129,5 +114,30 @@ export default {
   }
   .van-grid-item__content{
     padding: 0 0.5rem;
+  }
+  .drawer-content{
+    background-color: #ffffff;
+  }
+  .content-wrap{
+    background-color: #FFFFFF;
+  }
+  .drawer-contain{
+    height: 100%;
+    background: #000000;
+  }
+  .my-content{
+    position: relative;
+    padding-bottom: 40px;
+  }
+  .item-content{
+    background-color: white;
+    border-radius: .2rem;
+    padding: .1rem;
+  }
+  .poster{
+
+  }
+  >>> .van-grid-item__content{
+    background-color: #eaeaea;
   }
 </style>

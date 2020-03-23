@@ -4,8 +4,9 @@ import index from '@/views/index'
 import channel from '@/views/channel'
 import news from '@/views/news'
 import shop from '@/views/shop'
+import detail from '@/views/detail-article'
 
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
   routes: [
@@ -25,6 +26,11 @@ export default new Router({
       path: '/shop',
       name: 'shop',
       component: shop
+    }
+    , {
+      path: '/detail/:article_id',
+      name: 'detail',
+      component: detail
     }
   ]
 })

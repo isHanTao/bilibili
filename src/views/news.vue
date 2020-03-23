@@ -1,7 +1,41 @@
 <template>
   <div>
     <myhead></myhead>
-    <p>动态</p>
+    <van-skeleton
+      title
+      avatar
+      :row="3"
+
+    >
+      <div>实际内容</div>
+    </van-skeleton>
+    
+    <van-skeleton
+      title
+      avatar
+      :row="3"
+    
+    >
+      <div>实际内容</div>
+    </van-skeleton>
+    
+    <van-skeleton
+      title
+      avatar
+      :row="3"
+    
+    >
+      <div>实际内容</div>
+    </van-skeleton>
+    
+    <van-skeleton
+      title
+      avatar
+      :row="3"
+    
+    >
+      <div>实际内容</div>
+    </van-skeleton>
     <myfooter></myfooter>
   </div>
 </template>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <myhead></myhead>
-    <p>会员狗</p>
+    <p>个人中心</p>
     <myfooter></myfooter>
   </div>
 </template>

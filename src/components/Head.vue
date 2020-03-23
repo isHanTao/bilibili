@@ -1,11 +1,11 @@
 <template>
   <div>
     <van-row>
-      <van-col span="1" class="head-block avatar">
+      <van-col span="1" class="head-block avatar" >
 
       </van-col>
       <van-col span="3" class="head-block avatar">
-        <van-image round width="1rem" height="1rem"  src="https://img.yzcdn.cn/vant/cat.jpeg" />
+        <van-image round width="1rem" height="1rem"  src="https://img.yzcdn.cn/vant/cat.jpeg" @click='user_info=true'/>
       </van-col>
      <!-- <van-col span="4" class="logo head-block">
         <svg data-name="\u56FE\u5C42 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 62 28" fill="#de698c">
@@ -40,7 +40,9 @@
         </van-search>
       </van-col>
       <van-col span="1" class="head-block">
-
+      <van-popup v-model="user_info" position="left" :style="{ height: '100%',width:'61.8%' }">
+        <div>用户操作</div>
+      </van-popup>
       </van-col>
       <van-col span="3" class="head-block my-icon">
         <van-icon name="envelop-o" color="#646566"  size=".6rem"/>
@@ -59,6 +61,7 @@
     data() {
       return {
         value: '',
+        user_info:false,
         tabs:[{
           name:'首页',
           route:'/'
@@ -86,6 +89,9 @@
         }]
       }
     },
+    method(){
+
+    }
   }
 </script>
 

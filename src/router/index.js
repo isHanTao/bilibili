@@ -3,8 +3,9 @@ import Router from 'vue-router'
 import index from '@/views/index'
 import channel from '@/views/channel'
 import news from '@/views/news'
-import shop from '@/views/shop'
+import mine from '@/views/mine'
 import detail from '@/views/detail-article'
+import typeList from '@/views/article_type'
 
 Vue.use(Router);
 
@@ -23,14 +24,18 @@ export default new Router({
       name: 'news',
       component: news
     }, {
-      path: '/shop',
-      name: 'shop',
-      component: shop
-    }
-    , {
+      path: '/mine',
+      name: 'mine',
+      component: mine
+    }, {
       path: '/detail/:article_id',
       name: 'detail',
       component: detail
+    }
+    , {
+      path: '/channel/:type_id',
+      name: 'channel.type',
+      component: typeList
     }
   ]
 })

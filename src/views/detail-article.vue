@@ -1,72 +1,151 @@
 <template>
   <div>
-    <myhead></myhead>
-    <div class="article-detail" v-html="article.content">
-
+    <MyTitle :title="article.title"></MyTitle>
+    <div class="article-detail-box">
+      <div class="article-detail" id="my-editor" v-html="article.content">
+      </div>
     </div>
-    <div v-if="img_url && show" class="pop-img">
-      <img :src="img_url" alt="">
+    <div class="message-comment-box">
+      <div class="message-comment-item" v-for="i in 3" :key="i">
+        <!--                <div class="message-comment-avatar">-->
+        <!--                  <img src="../assets/like.png"  alt="">-->
+        <!--                </div>-->
+        <!--                <p class="message-comment-name">今日的风儿</p>-->
+        <!--                <span class="time">{{item.time}}</span>-->
+        <p class="message-message-content">真的好看</p>
+        <van-divider content-position="right"><p @click="goToUser" class="say">今日的风儿 | 1 小时前</p></van-divider>
+      </div>
+    </div>
+
+    <div class="article-detail-options">
+      <van-row>
+        <van-col span="6" class="mycol">
+          <img src="../assets/zan-shixin.png" alt="" class="article-detail-option" @click="zan">
+        </van-col>
+        <van-col span="6" class="mycol">
+          <img src="../assets/heart-null.png" v-if="islike" alt="" class="article-detail-option" @click="like">
+          <img src="../assets/heart-red.png" alt="" v-if="!islike" class="article-detail-option" @click="like">
+        </van-col>
+        <van-col span="6" class="mycol">
+          <img src="../assets/zan-shixin.png" alt="" class="article-detail-option" @click="unzan" style="transform: rotate(180deg)">
+        </van-col>
+        <van-col span="6" class="mycol">
+          <img src="../assets/comment.png" alt="" class="article-detail-option" @click="comment">
+        </van-col>
+      </van-row>
     </div>
   </div>
 </template>
 
 <script>
-import myhead from '@/components/Head';
+import MyTitle from '@/components/MyTitle';
 import $ from 'jquery';
-import E from 'wangeditor'
+import '../assets/prism';
+import { ImagePreview } from 'vant';
+
 export default {
   name: 'detail-article',
   data () {
     return {
       msg: 'Welcome to Your Vue.js App',
       article:{},
-      show:false,
-      img_url:'',
+      islike:true,
     }
   },
   methods:{
     async getArticle() {
       let {data: res} = await this.$http.get('/article/'+this.$route.params.article_id);
       this.article = res.data;
+      $(".article-detail").on("click",'img',function () {
+        new ImagePreview([
+          $(this).attr('src')
+        ])
+      });
+    },
+    goToUser(){
+      this.$toast('查看用户');
+    },
+    zan(){
+      this.$toast('点赞成功')
+    },
+    unzan(){
+      this.$toast('你踩了这篇文章')
+    },
+    like(){
+      this.$toast('收藏成功');
+      this.islike = !this.islike;
+    },
+    comment(){
+      this.$toast('评论成功');
     }
   },
-  created:function(){
-    this.getArticle();
-    $(".article-detail").bind("click","img",(dom)=>{
-      dom.stopPropagation();
-      console.log(1);
-      this.show = true;
-      this.img_url = $(dom.target).attr('src');
-    })
+  mounted () {
+
   },
-  components:{ myhead },
+  created(){
+    this.getArticle();
+  },
+  components:{ MyTitle },
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
-  @import "../../node_modules/wangeditor/release/wangEditor.min.css";
-  .article-detail{
-    font-size: .45rem;
+  @import "../assets/common.css";
+  @import "../assets/prism.css";
+
+  .article-detail-option{
+    display: inline-block;
+    color: #636363;
+    width: .6rem;
+    height: .6rem;
+    position: relative;
   }
-  .pop-img{
+  .article-detail-options{
+    border-bottom: rgba(191, 191, 191, 0.54) .03rem solid;
     position: fixed;
-    left: 0;
-    top: 0;
     width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.5);
+    bottom: 0;
+    background-color: #efefef;
   }
-  .pop-img > img{
-    margin: auto auto;
+  .mycol{
+    text-align: center;
+  }
+  .article-detail-option > img{
     width: 100%;
-    position:absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%,-50%);
+    position: absolute;
+  }
+  .article-detail{
+    font-size: .4rem;
+  }
+  .article-detail-box{
+    padding: .05rem;
+  }
+  .article-detail{
+    padding: .05rem;
+
   }
   .article-detail img{
     max-width: 100% !important;
     height: auto;
   }
+  .message-comment-box{
+    background-color: #00000008;
+    padding-bottom: 1.3rem;
+  }
+  .say{
+    font-size: .3rem;
+    color: #cc99cd;
+  }
+
+  .message-message-content{
+    font-size: .3rem;
+    margin: 0;
+    text-indent: .5rem;
+  }
+  p{
+    margin: .1rem;
+    font-size: .4rem;
+  }
+
 </style>

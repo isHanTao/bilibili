@@ -1,11 +1,12 @@
 <template>
   <div>
     <myhead></myhead>
-    <van-grid :gutter="10" :border='false'>
+    <van-grid :gutter="10" :border='true' clickable >
       <van-grid-item
         v-for="(value,index) in myclasses"
-        :key="value.name+index" >
-            <van-image class="poster" :src="value.image" radius="5">
+        :to="'channel/'+value.id"
+        :key="index" >
+            <van-image class="poster" :src="value.poster" radius="5">
               <template v-slot:error>加载失败</template>
             </van-image>
             <p style="text-align: center;">{{value.name}}</p>
@@ -23,22 +24,17 @@ export default {
   data () {
     return {
       msg: 'Welcome to Your Vue.js App',
-      myclasses:[
-        {name:'影响联盟', image:'http://pics.sc.chinaz.com/Files/pic/icons128/5944/lol10.png'},
-        {name:'影响联盟', image:'http://pics.sc.chinaz.com/Files/pic/icons128/5944/lol10.png'},
-        {name:'影响联盟', image:'http://pics.sc.chinaz.com/Files/pic/icons128/5944/lol10.png'},
-        {name:'影响联盟', image:'http://pics.sc.chinaz.com/Files/pic/icons128/5944/lol10.png'},
-        {name:'影响联盟', image:'http://pics.sc.chinaz.com/Files/pic/icons128/5944/lol10.png'},
-        {name:'影响联盟', image:'http://pics.sc.chinaz.com/Files/pic/icons128/5944/lol10.png'},
-        {name:'影响联盟', image:'http://pics.sc.chinaz.com/Files/pic/icons128/5944/lol10.png'},
-        {name:'影响联盟', image:'http://pics.sc.chinaz.com/Files/pic/icons128/5944/lol10.png'},
-        {name:'影响联盟', image:'http://pics.sc.chinaz.com/Files/pic/icons128/5944/lol10.png'},
-        {name:'影响联盟', image:'http://pics.sc.chinaz.com/Files/pic/icons128/5944/lol10.png'},
-        {name:'影响联盟', image:'http://pics.sc.chinaz.com/Files/pic/icons128/5944/lol10.png'},
-        {name:'影响联盟', image:'http://pics.sc.chinaz.com/Files/pic/icons128/5944/lol10.png'},
-
-      ]
+      myclasses:[]
     }
+  },
+  methods:{
+    async getTypeList() {
+      let {data: res} = await this.$http.get('/article/type');
+      this.myclasses = res.data;
+    }
+  },
+  mounted() {
+    this.getTypeList()
   },
   components:{ myhead,myfooter },
 }

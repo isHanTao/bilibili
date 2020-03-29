@@ -4,7 +4,7 @@
       <van-tabbar-item icon="home-o" to="/">首页</van-tabbar-item>
       <van-tabbar-item icon="bookmark-o" to="channel">分类</van-tabbar-item>
       <van-tabbar-item icon="coupon-o" to="news">动态</van-tabbar-item>
-      <van-tabbar-item icon="friends-o" to="shop">我</van-tabbar-item>
+      <van-tabbar-item icon="friends-o" to="mine">我</van-tabbar-item>
     </van-tabbar>
   </div>
 </template>
@@ -25,7 +25,7 @@
           this.active = 1;
         } else if (this.$route.name == "news") {
           this.active = 2;
-        }else if (this.$route.name == "shop"){
+        }else if (this.$route.name == "mine"){
           this.active = 3;
         }
       }

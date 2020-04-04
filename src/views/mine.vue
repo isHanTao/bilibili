@@ -60,12 +60,24 @@ export default {
   methods:{
     async guanzhu(item) {
       item.isIdol = !item.isIdol;
-      let {data: res} = await this.$http.get('/fan/myfan');
-      this.$toast('关注[' + item.user.nickname + ']成功QAQ')
+      let {data: res} = await this.$http.post('/fan/'+item.user_id);
+      if (res.code == 0){
+        this.$toast('关注['+item.user.nickname+']成功QAQ');
+        this.getIdol();
+      }
+      else
+        this.$toast('关注['+item.user.nickname+']失败QAQ')
     },
-    unguanzhu(item){
+    async unguanzhu(item){
       item.isIdol = !item.isIdol;
-      this.$toast('取消关注['+item.user.nickname+']成功QAQ')
+      let {data: res} =  await this.$http.delete('/fan/'+item.user_id);
+      console.log(item);
+      if (res.code == 0){
+        this.$toast('取消关注['+item.user.nickname+']成功QAQ');
+        this.getIdol();
+      }
+      else
+        this.$toast('取消关注['+item.user.nickname+']失败QAQ')
     },
     showPeople(i){
       this.$toast('查看用户['+i+']，功能还在开发中QAQ')

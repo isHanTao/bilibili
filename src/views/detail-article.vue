@@ -20,14 +20,16 @@
     <div class="article-detail-options">
       <van-row>
         <van-col span="6" class="mycol">
-          <img src="../assets/zan-shixin.png" alt="" class="article-detail-option" @click="zan">
+          <img src="../assets/zan-shixin.png" v-if="article.iszan === -1||article.iszan === 1" alt="" class="article-detail-option" @click="zan">
+          <img src="../assets/zaned.png" alt="" v-if="article.iszan === 0" class="article-detail-option" @click="zaned">
         </van-col>
         <van-col span="6" class="mycol">
           <img src="../assets/heart-null.png" v-if="islike" alt="" class="article-detail-option" @click="like">
           <img src="../assets/heart-red.png" alt="" v-if="!islike" class="article-detail-option" @click="like">
         </van-col>
         <van-col span="6" class="mycol">
-          <img src="../assets/zan-shixin.png" alt="" class="article-detail-option" @click="unzan" style="transform: rotate(180deg)">
+          <img src="../assets/zan-shixin.png" alt="" class="article-detail-option" v-if="article.iszan === -1||article.iszan === 0" @click="unzan" style="transform: rotate(180deg)">
+          <img src="../assets/zaned.png" alt="" class="article-detail-option" v-if="article.iszan === 1" @click="unzaned" style="transform: rotate(180deg)">
         </van-col>
         <van-col span="6" class="mycol">
           <img src="../assets/comment.png" alt="" class="article-detail-option" @click="comment">
@@ -62,14 +64,30 @@ export default {
         ])
       });
     },
+    zaned(){
+      this.$toast('已经赞word 哥');
+    },
+    unzaned(){
+      this.$toast('你可别踩了');
+    },
     goToUser(){
       this.$toast('查看用户');
     },
-    zan(){
-      this.$toast('点赞成功')
+    async zan() {
+      this.article.iszan = 0;
+      let {data: res} = await this.$http.post('/article/zan',{article_id:this.article.id,type:0});
+      if (res.code == 0) {
+        this.$toast('点赞成功');
+      } else
+        this.$toast('点赞失败了QAQ')
     },
-    unzan(){
-      this.$toast('你踩了这篇文章')
+    async unzan() {
+      this.article.iszan = 1;
+      let {data: res} = await this.$http.post('/article/zan', {article_id: this.article.id, type: 1});
+      if (res.code == 0) {
+        this.$toast('你踩了这篇文章');
+      } else
+        this.$toast('操作失败了QAQ')
     },
     like(){
       this.$toast('收藏成功');

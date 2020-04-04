@@ -6,10 +6,12 @@ import news from '@/views/news'
 import mine from '@/views/mine'
 import detail from '@/views/detail-article'
 import typeList from '@/views/article_type'
+import write_thing from '@/views/write_thing'
+import login from '@/views/login'
 
 Vue.use(Router);
 
-export default new Router({
+let router =  new Router({
   routes: [
     {
       path: '/',
@@ -36,6 +38,22 @@ export default new Router({
       path: '/channel/:type_id',
       name: 'channel.type',
       component: typeList
+    }, {
+      path: '/news/write',
+      name: 'news.write',
+      component: write_thing
+    }, {
+      path: '/login',
+      name: 'login',
+      component: login
     }
   ]
 })
+
+router.beforeEach((to, form, next) => {
+  if (to.path==='/login' || to.path === '/admin/login') return next();
+  const token = window.sessionStorage.getItem('token');
+  if (!token) return next('/login');
+  next();
+});
+export default router

@@ -33,11 +33,16 @@
     },
     methods: {
       async afterRead(file) {
+        file.status = 'uploading'
+        file.message  = '上传中...'
         let data = new FormData();
         data.append('file', file.file);
         let {data: res} = await this.$http.post('/thing/uploadimg', data);
         if (res.code === 0) {
-          this.fileUploadList.push(res.data)
+          this.fileUploadList.push(res.data);
+          file.status = ''
+        }else {
+          file.status = 'failed'
         }
       },
       async publish() {
@@ -47,6 +52,9 @@
         let {data: res} = await this.$http.post('/thing', {content:this.content,imgs:this.fileUploadList});
         if (res.code === 0) {
           this.$toast('发布成功');
+          this.$router.push('/news')
+        }else {
+          this.$toast('发布失败');
         }
       },
       // 返回布尔值

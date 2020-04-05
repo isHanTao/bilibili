@@ -5,17 +5,17 @@
       <div class="article-detail" id="my-editor" v-html="article.content">
       </div>
     </div>
-    <div class="message-comment-box">
-      <div class="message-comment-item" v-for="i in 3" :key="i">
-        <!--                <div class="message-comment-avatar">-->
-        <!--                  <img src="../assets/like.png"  alt="">-->
-        <!--                </div>-->
-        <!--                <p class="message-comment-name">今日的风儿</p>-->
-        <!--                <span class="time">{{item.time}}</span>-->
-        <p class="message-message-content">真的好看</p>
-        <van-divider content-position="right"><p @click="goToUser" class="say">今日的风儿 | 1 小时前</p></van-divider>
-      </div>
-    </div>
+<!--    <div class="message-comment-box">-->
+<!--      <div class="message-comment-item" v-for="i in 3" :key="i">-->
+<!--        &lt;!&ndash;                <div class="message-comment-avatar">&ndash;&gt;-->
+<!--        &lt;!&ndash;                  <img src="../assets/like.png"  alt="">&ndash;&gt;-->
+<!--        &lt;!&ndash;                </div>&ndash;&gt;-->
+<!--        &lt;!&ndash;                <p class="message-comment-name">今日的风儿</p>&ndash;&gt;-->
+<!--        &lt;!&ndash;                <span class="time">{{item.time}}</span>&ndash;&gt;-->
+<!--        <p class="message-message-content">真的好看</p>-->
+<!--        <van-divider content-position="right"><p @click="goToUser" class="say">今日的风儿 | 1 小时前</p></van-divider>-->
+<!--      </div>-->
+<!--    </div>-->
 
     <div class="article-detail-options">
       <van-row>
@@ -35,6 +35,9 @@
           <img src="../assets/comment.png" alt="" class="article-detail-option" @click="comment">
         </van-col>
       </van-row>
+    </div>
+    <div class="plus" v-if="article.user"@click="guanzhu">
+      <img :src="article.user.avatar" alt="">
     </div>
   </div>
 </template>
@@ -90,12 +93,30 @@ export default {
         this.$toast('操作失败了QAQ')
     },
     like(){
-      this.$toast('收藏成功');
+      this.collect();
       this.islike = !this.islike;
     },
     comment(){
       this.$toast('评论成功');
-    }
+    },
+    async guanzhu() {
+      let user = this.article.user;
+      let {data: res} = await this.$http.post('/fan/'+user.id);
+      if (res.code == 0){
+        this.$toast('关注['+user.nickname+']成功QAQ');
+      }
+      else
+        this.$toast('关注['+user.nickname+']失败QAQ'+ res.msg)
+    },
+
+    async collect() {
+      let {data: res} = await this.$http.post('/article/collect/'+this.article.id);
+      if (res.code == 0){
+        this.$toast('收藏成功QAQ');
+      }
+      else
+        this.$toast('收藏失败QAQ')
+    },
   },
   mounted () {
 
@@ -164,6 +185,18 @@ export default {
   p{
     margin: .1rem;
     font-size: .4rem;
+  }
+
+  .plus {
+    position: fixed;
+    right: .5rem;
+    bottom: 2rem;
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  .plus img {
+    width: 100%;
   }
 
 </style>

@@ -35,7 +35,7 @@
           if (!res.access_token){
             return this.$toast('账号或密码错误')
           }
-          window.sessionStorage.setItem('token', 'Bearer ' + res.access_token);
+          window.localStorage.setItem('token', 'Bearer ' + res.access_token);
           this.$toast('登录成功');
           this.$router.push('/');
         },

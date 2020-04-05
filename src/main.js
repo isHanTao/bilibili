@@ -8,14 +8,16 @@ import { Button, PullRefresh ,Row,Popup,List ,Divider, Col, Cell,Search, Image, 
 import 'amfe-flexible'
 Vue.use(Button).use(Row).use(Col).use(Search).use(Image).use(Tab).use(Tabs).use(Grid).use(GridItem).use(Swipe).use(SwipeItem).use(Sticky).use(Icon)
   .use(Tabbar).use(TabbarItem).use(Popup).use(Overlay).use(Divider).use(List).use(Cell).use(PullRefresh);
-import { Field, Uploader } from 'vant';
-Vue.use(Field);
+import { Field, Uploader, Radio,RadioGroup,DatetimePicker,Area } from 'vant';
+Vue.use(Field).use(Radio).use(RadioGroup).use(DatetimePicker).use(Area);
 Vue.use(Uploader);
 import { Skeleton } from 'vant';
 import { Toast } from 'vant';
 import { NavBar } from 'vant';
 import { Tag } from 'vant';
+import { Form } from 'vant';
 
+Vue.use(Form);
 Vue.use(Tag);
 Vue.use(NavBar);
 Vue.use(Toast);
@@ -23,13 +25,14 @@ Vue.use(Skeleton);
 import 'jquery';
 import './assets/common.css'
 Vue.config.productionTip = false;
-axios.defaults.baseURL = 'http://www.blessed.com/api/';
+axios.defaults.baseURL = 'http://blessed.hant.live/api/';
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 axios.interceptors.request.use(config =>{
-  config.headers.Authorization = window.sessionStorage.getItem('token');
+  config.headers.Authorization = window.localStorage.getItem('token');
   return config;
 });
 Vue.prototype.$http = axios;
+import  './back';
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

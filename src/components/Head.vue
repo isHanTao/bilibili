@@ -2,12 +2,11 @@
   <div>
     <van-row>
       <van-col span="1" class="head-block avatar" >
-
       </van-col>
       <van-col span="3" class="head-block avatar">
         <van-image round width="1rem" height="1rem"  :src="avatar" @click='show_user_info=true'/>
       </van-col>
-      <van-col span="13" class="head-block">
+      <van-col span="19" class="head-block">
         <van-search placeholder="请输入搜索关键词" v-model="value"  shape="round">
         </van-search>
       </van-col>
@@ -24,7 +23,7 @@
               <p>关注</p>
             </span>
             <span>
-              <p>42</p>
+              <p>{{userinfo.thing_count}}</p>
               <p>动态</p>
             </span>
             <span>
@@ -52,25 +51,37 @@
               <span class="menu-icon ">
                 <img src="../assets/like.png" alt="">
               </span>
-              <p class="menu-item-text">我的收藏</p>
+              <p class="menu-item-text" @click="$router.push('/collect')">我的收藏</p>
             </div>
-            <div class="line"></div>
 
+
+
+            <div class="line"></div>
             <div class="menu-item">
               <span class="menu-icon ">
-                <img src="../assets/home.png" alt="">
+                <img src="../assets/userinfo.png" alt="">
               </span>
-              <p class="menu-item-text">首页</p>
+              <p class="menu-item-text" @click="$router.push('/userinfo')">个人中心</p>
+            </div>
+
+            <div class="line"></div>
+            <div class="menu-item">
+              <span class="menu-icon ">
+                <img src="../assets/about.png" alt="">
+              </span>
+              <p class="menu-item-text" @click="$router.push('/about')">关于我</p>
+            </div>
+
+            <div class="line"></div>
+            <div class="menu-item">
+              <span class="menu-icon ">
+                <img src="../assets/quit.png" alt="">
+              </span>
+              <p class="menu-item-text" @click="logout">退出登录</p>
             </div>
           </div>
         </div>
       </van-popup>
-      </van-col>
-      <van-col span="3" class="head-block my-icon">
-        <van-icon name="envelop-o" color="#646566"  size=".6rem"/>
-      </van-col>
-      <van-col span="3" class="head-block my-icon">
-        <van-icon name="peer-pay" color="#646566" size=".6rem"/>
       </van-col>
     </van-row>
 
@@ -93,7 +104,13 @@
          let {data: res} = await this.$http.get('/userinfo');
          this.userinfo = res.data;
          this.avatar = this.userinfo.avatar
-       }
+       },
+      async logout(){
+        const {data : res} = await this.$http.post('/auth/logout');
+        window.sessionStorage.clear();
+        this.$toast.success('退出成功');
+        this.$router.push('/login');
+      },
     },
 
     mounted() {
@@ -137,8 +154,8 @@
     margin: 0;
   }
   .head-block{
-    height: 1rem;
-    margin-top: .2rem;
+    height: 1.3rem;
+    padding: .1rem;
     vertical-align: middle;
   }
   .menu-item-text{

@@ -8,6 +8,9 @@ import detail from '@/views/detail-article'
 import typeList from '@/views/article_type'
 import write_thing from '@/views/write_thing'
 import login from '@/views/login'
+import userinfo from '@/views/userinfo'
+import about from '@/views/about'
+import collect from '@/views/collect'
 
 Vue.use(Router);
 
@@ -46,13 +49,25 @@ let router =  new Router({
       path: '/login',
       name: 'login',
       component: login
+    }, {
+      path: '/userinfo',
+      name: 'userinfo',
+      component: userinfo
+    },{
+      path: '/about',
+      name: 'about',
+      component: about
+    },{
+      path: '/collect',
+      name: 'collect',
+      component: collect
     }
   ]
 })
 
 router.beforeEach((to, form, next) => {
   if (to.path==='/login' || to.path === '/admin/login') return next();
-  const token = window.sessionStorage.getItem('token');
+  const token = window.localStorage.getItem('token');
   if (!token) return next('/login');
   next();
 });

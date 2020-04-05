@@ -1,7 +1,7 @@
 <template>
   <div>
     <myhead></myhead>
-    <van-tabs v-model="active" swipeable animated>
+    <van-tabs v-model="active" swipeable animated sticky>
       <van-tab :title="'动态'">
         <div class="message-boxes">
           <van-list
@@ -95,8 +95,6 @@
           this.list_finished = true;
         }
         this.pageNum++;
-        console.log(this.count)
-        console.log(this.pageNum)
       },
       getThingsList: async function () {
         this.list_loading = true;

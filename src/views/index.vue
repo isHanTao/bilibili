@@ -405,6 +405,7 @@
   }
 
   .poster {
+    height: 4.5rem;
   }
 
   .detail-text {

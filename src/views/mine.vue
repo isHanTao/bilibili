@@ -122,11 +122,12 @@ export default {
     position: absolute;
     height: 1rem;
     width: 1rem;
-    border-radius: 1rem;
+
   }
   .people-face > img{
     width: 100%;
-    border-radius: 1rem;
+    height: 100%;
+    border-radius: 50%;
   }
   .people-content-name{
     position: absolute;

@@ -19,6 +19,11 @@
             placeholder="昵称"
             label="昵称"
           />
+          <van-field
+            v-model="user.description"
+            placeholder="骚话"
+            label="骚话"
+          />
 <!--          <van-field-->
 <!--            v-model="user.password"-->
 <!--            placeholder="密码不输入，就不该"-->
@@ -39,8 +44,8 @@
             clickable
             name="datetimePicker"
             :value="user.birth"
-            label="时间选择"
-            placeholder="点击选择时间"
+            label="出生日期"
+            placeholder="点击选择"
             @click="showPicker = true"
           />
           <van-popup v-model="showPicker" position="bottom">
@@ -57,8 +62,8 @@
             clickable
             name="area"
             :value="user.address"
-            label="地区选择"
-            placeholder="点击选择省市区"
+            label="所在城市"
+            placeholder="点击选择"
             @click="showArea = true"
           />
           <van-popup v-model="showArea" position="bottom">

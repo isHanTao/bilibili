@@ -47,37 +47,37 @@
             </div>
             <div class="line"></div>
 
-            <div class="menu-item">
+            <div class="menu-item" @click="$router.push('/collect')">
               <span class="menu-icon ">
                 <img src="../assets/like.png" alt="">
               </span>
-              <p class="menu-item-text" @click="$router.push('/collect')">我的收藏</p>
+              <p class="menu-item-text">我的收藏</p>
             </div>
 
 
 
             <div class="line"></div>
-            <div class="menu-item">
+            <div class="menu-item" @click="$router.push('/userinfo')">
               <span class="menu-icon ">
                 <img src="../assets/userinfo.png" alt="">
               </span>
-              <p class="menu-item-text" @click="$router.push('/userinfo')">个人中心</p>
+              <p class="menu-item-text" >个人中心</p>
             </div>
 
             <div class="line"></div>
-            <div class="menu-item">
+            <div class="menu-item" @click="$router.push('/about')">
               <span class="menu-icon ">
                 <img src="../assets/about.png" alt="">
               </span>
-              <p class="menu-item-text" @click="$router.push('/about')">关于我</p>
+              <p class="menu-item-text" >关于我</p>
             </div>
 
             <div class="line"></div>
-            <div class="menu-item">
+            <div class="menu-item"  @click="logout">
               <span class="menu-icon ">
                 <img src="../assets/quit.png" alt="">
               </span>
-              <p class="menu-item-text" @click="logout">退出登录</p>
+              <p class="menu-item-text">退出登录</p>
             </div>
           </div>
         </div>

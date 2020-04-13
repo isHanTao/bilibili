@@ -21,7 +21,7 @@
               <div class="message-body">
                 <p class="message-body-text">{{item.content}}</p>
                 <div class="message-body-img-box">
-                  <van-grid :border="true" :column-num="3" square clickable>
+                  <van-grid :border="false" :column-num="3" square clickable>
                     <van-grid-item v-for="i in item.imgs" :key="i.url" @click="clickgrid">
                       <img :src="i.url" alt="" class="message-body-img-item">
                     </van-grid-item>
@@ -45,7 +45,7 @@
             <div class="message-body">
               <p class="message-body-text">{{item.content}}</p>
               <div class="message-body-img-box">
-                <van-grid :border="true" :column-num="3" square clickable>
+                <van-grid :border="false" :column-num="3" square clickable>
                   <van-grid-item v-for="i in item.imgs" :key="i.url" @click="clickgrid">
                     <img :src="i.url" alt="" class="message-body-img-item">
                   </van-grid-item>
@@ -270,6 +270,7 @@
   .message-head-avatar > img {
     width: 1rem;
     height: 1rem;
+    border-radius: 50%;
   }
 
   .message-box-title {

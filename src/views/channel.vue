@@ -1,7 +1,7 @@
 <template>
   <div>
     <myhead></myhead>
-    <van-grid :gutter="10" :border='true' clickable >
+    <van-grid :gutter="10" :border='false' clickable >
       <van-grid-item
         v-for="(value,index) in myclasses"
         :to="'channel/'+value.id"

@@ -5,15 +5,22 @@
         Blessed Started
       </div>
       <div class="inputs">
+
+          <div class="input-item">
+          <van-field v-model="name"  label="登录账号" />
+        </div>
         <div class="input-item">
           <van-field v-model="username" label="用户名称" />
         </div>
         <div class="input-item">
           <van-field v-model="password" type="password" label="密码"/>
         </div>
-        <button class="my-button" @click="login">登 录</button>
+        <div class="input-item">
+          <van-field v-model="password1" type="password" label="确认密码"/>
+        </div>
+        <button class="my-button" @click="login">注 册</button>
         <p class="my-tips">登录就表示你同意 <span>用户协议</span> ，和<span>隐私策略</span> </p>
-        <p class="my-tips"><span @click="$router.push('/regieter')">马上注册</span></p>
+        <p class="my-tips"><span @click="$router.push('/login')">返回登录</span> </p>
       </div>
     </div>
   </div>
@@ -24,8 +31,10 @@
     name: "login",
     data() {
       return {
+        name:'',
         username: '',
-        password: ''
+        password: '',
+        password1: '',
       }
     },
     methods: {
@@ -33,14 +42,19 @@
         if (this.username === '') {
           return this.$toast('请输入用户名')
         }
-        if (this.password === '') {
+        if (this.password === '' || this.password1 === '') {
           return this.$toast('请输入密码')
+        }
+        if(this.password != this.password1) {
+          return this.$toast('密码不一致')
         }
         const {
           data: res
-        } = await this.$http.post('/auth/login', {
+        } = await this.$http.post('/auth/register', {
           identifier: this.username,
           credential: this.password,
+          name: this.name,
+          identity_type:'username'
         });
         if (res.code === 1) {
           return this.$toast(res.msg)

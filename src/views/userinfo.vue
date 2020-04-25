@@ -132,6 +132,7 @@
         this.showArea = false;
       },
       async submit() {
+        delete this.user.avatar
         let {data: res} = await this.$http.put('/user', this.user);
         if (res.code === 0) {
           this.$toast('更新成功')

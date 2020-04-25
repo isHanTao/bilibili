@@ -11,6 +11,8 @@ import login from '@/views/login'
 import userinfo from '@/views/userinfo'
 import about from '@/views/about'
 import collect from '@/views/collect'
+import register from '@/views/register'
+import notfind from '@/views/notfind';
 
 Vue.use(Router);
 
@@ -61,7 +63,14 @@ let router =  new Router({
       path: '/collect',
       name: 'collect',
       component: collect
-    }
+    },{
+      path: '/regieter',
+      name: 'register',
+      component: register
+    },{
+      path:'*',
+      component:notfind
+    },
   ]
 })
 

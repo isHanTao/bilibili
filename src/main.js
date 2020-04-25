@@ -16,8 +16,10 @@ import { Toast } from 'vant';
 import { NavBar } from 'vant';
 import { Tag } from 'vant';
 import { Form } from 'vant';
+import { Card } from 'vant';
 
 Vue.use(Form);
+Vue.use(Card);
 Vue.use(Tag);
 Vue.use(NavBar);
 Vue.use(Toast);
@@ -25,12 +27,28 @@ Vue.use(Skeleton);
 import 'jquery';
 import './assets/common.css'
 Vue.config.productionTip = false;
-axios.defaults.baseURL = 'http://blessed.hant.live/api/';
+axios.defaults.baseURL = 'http://blessed.hant.live/api';
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 axios.interceptors.request.use(config =>{
+  config.headers['Content-Type'] = 'application/json'
   config.headers.Authorization = window.localStorage.getItem('token');
   return config;
 });
+axios.interceptors.response.use(res => {
+  if (res.data.bodyObj && res.data.bodyObj.code) {
+    let code = res.data.bodyObj.code
+    // 10101是未登录状态码
+    if (code === 10101) { // 如果是未登录直接踢出去
+      location.href = '/login.html'
+    }
+  }
+  return res
+},
+error => {
+  router.push('/login')
+}
+)
+
 Vue.prototype.$http = axios;
 import  './back';
 /* eslint-disable no-new */

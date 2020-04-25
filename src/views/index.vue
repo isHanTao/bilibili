@@ -29,7 +29,7 @@
                     </div>
                   </div>
                   <div class="detail-text">
-                    <p class="van-multi-ellipsis--l2">{{item.title}}</p>
+                    <p class="van-multi-ellipsis--l2">{{ item.title.substring(0,23)}}</p>
                   </div>
                 </div>
 

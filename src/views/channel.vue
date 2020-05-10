@@ -1,6 +1,7 @@
 <template>
   <div>
     <myhead></myhead>
+    <keep-alive>
     <van-grid :gutter="10" :border='false' clickable >
       <van-grid-item
         v-for="(value,index) in myclasses"
@@ -12,6 +13,7 @@
             <p style="text-align: center;">{{value.name}}</p>
       </van-grid-item>
     </van-grid>
+    </keep-alive>
     <myfooter></myfooter>
   </div>
 </template>

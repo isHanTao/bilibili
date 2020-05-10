@@ -11,7 +11,7 @@
       >
       </van-field>
       <div class="my-imgs">
-        <van-uploader v-model="fileList" :before-read="beforeRead" :after-read="afterRead" :max-count="9"/>
+        <van-uploader v-model="fileList" :before-read="beforeRead" :after-read="afterRead" :max-count="9" :before-delete="deleteImg"/>
       </div>
     </div>
     <div class="my-push" @click="publish()">发布</div>
@@ -45,10 +45,15 @@
           file.status = 'failed'
         }
       },
+      deleteImg(files,item){
+        this.fileList.splice(item.index,1)
+        this.fileUploadList.splice(item.index,1);
+      },
       async publish() {
         if (this.content ===""){
           return this.$toast('请输入内容');
         }
+        console.log(this.fileUploadList)
         let {data: res} = await this.$http.post('/thing', {content:this.content,imgs:this.fileUploadList});
         if (res.code === 0) {
           this.$toast('发布成功');

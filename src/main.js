@@ -4,7 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import axios from 'axios'
 import router from './router'
-import { Button, PullRefresh ,Row,Popup,List ,Divider, Col, Cell,Search, Image, Tab, Tabs, Grid, GridItem, Swipe, SwipeItem, Tabbar, TabbarItem, Sticky, Icon,Overlay  } from 'vant'
+import { Button, PullRefresh,Row,Popup,List ,Divider, Col, Cell,Search, Image, Tab, Tabs, Grid, GridItem, Swipe, SwipeItem, Tabbar, TabbarItem, Sticky, Icon,Overlay  } from 'vant'
 import 'amfe-flexible'
 Vue.use(Button).use(Row).use(Col).use(Search).use(Image).use(Tab).use(Tabs).use(Grid).use(GridItem).use(Swipe).use(SwipeItem).use(Sticky).use(Icon)
   .use(Tabbar).use(TabbarItem).use(Popup).use(Overlay).use(Divider).use(List).use(Cell).use(PullRefresh);
@@ -17,7 +17,8 @@ import { NavBar } from 'vant';
 import { Tag } from 'vant';
 import { Form } from 'vant';
 import { Card } from 'vant';
-
+import { Empty } from 'vant';
+Vue.use(Empty);
 Vue.use(Form);
 Vue.use(Card);
 Vue.use(Tag);
@@ -39,13 +40,13 @@ axios.interceptors.response.use(res => {
     let code = res.data.bodyObj.code
     // 10101是未登录状态码
     if (code === 10101) { // 如果是未登录直接踢出去
-      location.href = '/login.html'
+      location.href = '/login'
     }
   }
   return res
 },
 error => {
-  router.push('/login')
+  router.push('/404')
 }
 )
 

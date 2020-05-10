@@ -1,35 +1,34 @@
 <template>
-  <div>
-    <MyTitle :title="'分类文章'"></MyTitle>
-      <van-pull-refresh v-model="loading" @refresh="onRefresh">
-        <van-grid :border="false" :column-num="2" :center="false">
-          <van-grid-item v-for="(item,index) in article" :key="item.id + ''+ Math.random(index)" @click="$router.push('/detail/'+item.id)">
-            <div class="item-content">
-              <div class="item-content-img">
-                <van-image class="poster" :src="item.poster" radius="5" height="120">
-                  <template v-slot:error>加载失败</template>
-                </van-image>
-                <div class="icons">
-                  <span class="item-content-item">
-                    <img src="../assets/hot.png" alt="">{{tranNumber(item.hot_num,1)}}
-                  </span>
-                  <span class="item-content-item">
-                    <img src="../assets/zan.png" alt="">{{tranNumber(item.zan,1)}}
-                  </span>
-                </div>
-              </div>
-              <div class="detail-text">
-                <p class="van-multi-ellipsis--l2">{{ item.title.substring(0,23)}}</p>
+    <van-pull-refresh v-model="loading" @refresh="onRefresh">
+      <van-grid :border="false" :column-num="2" :center="false">
+        <van-grid-item v-for="(item,index) in article" :key="item.id + ''+ Math.random(index)" @click="$router.push('/detail/'+item.id)">
+          <div class="item-content">
+            <div class="item-content-img">
+              <van-image class="poster" :src="item.poster" radius="5" height="120">
+                <template v-slot:error>加载失败</template>
+              </van-image>
+              <div class="icons">
+                <span class="item-content-item">
+                  <img src="../assets/hot.png" alt="">{{tranNumber(item.hot_num,1)}}
+                </span>
+                <span class="item-content-item">
+                  <img src="../assets/zan.png" alt="">{{tranNumber(item.zan,1)}}
+                </span>
               </div>
             </div>
-          </van-grid-item>
-        </van-grid>
-      </van-pull-refresh>
-    </div>
+            <div class="detail-text">
+              <p class="van-multi-ellipsis--l2">{{ item.title.substring(0,23)}}</p>
+            </div>
+          </div>
+        </van-grid-item>
+      </van-grid>
+    </van-pull-refresh>
 </template>
 
 <script>
-  import MyTitle from '@/components/MyTitle.vue';
+  import myhead from '@/components/Head';
+  import myfooter from '@/components/Footer';
+
   export default {
     name: 'index',
     data() {
@@ -53,7 +52,7 @@
       async indexList() {
         let {
           data: res
-        } = await this.$http.get('/article/list?type='+ this.$route.params.type_id);
+        } = await this.$http.get('/article/list?limit=8');
         this.article = res.data.concat(this.article);
         this.loading = false;
       },
@@ -125,7 +124,8 @@
       this.loading = false;
     },
     components: {
-      MyTitle
+      myhead,
+      myfooter
     },
   }
 </script>

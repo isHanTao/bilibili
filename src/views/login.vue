@@ -13,7 +13,7 @@
         </div>
         <button class="my-button" @click="login">登 录</button>
         <p class="my-tips">登录就表示你同意 <span>用户协议</span> ，和<span>隐私策略</span> </p>
-        <p class="my-tips"><span @click="$router.push('/regieter')">马上注册</span></p>
+        <button class="my-button my-button-register" @click="toRegister">马上注册</button>
       </div>
     </div>
   </div>
@@ -47,8 +47,11 @@
         }
         window.localStorage.setItem('token', 'Bearer ' + res.data.access_token);
         this.$toast('登录成功');
-        this.$router.push('/');
+        this.$router.push('/index/main');
       },
+      toRegister(){
+        this.$router.push('/regieter')
+      }
     }
   }
 </script>
@@ -91,7 +94,7 @@
   .inputs {
     padding: .5rem;
     position: absolute;
-    top: 30%;
+    top: 40%;
     left: 50%;
     width: 80%;
     font-size: .5rem;
@@ -123,5 +126,10 @@
     line-height: 1rem;
     background: #ffb1c1;
     color: white;
+  }
+  .my-button-register{
+    width: 50%;
+    background: ##9fc171;
+    float: right;
   }
 </style>

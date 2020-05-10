@@ -7,26 +7,26 @@
         <van-image round width="1rem" height="1rem"  :src="avatar" @click='show_user_info=true'/>
       </van-col>
       <van-col span="19" class="head-block">
-        <van-search placeholder="请输入搜索关键词" v-model="value"  shape="round">
+        <van-search disabled  placeholder="请输入搜索关键词" v-model="value"  shape="round"  @click="$router.push('/index/search')">
         </van-search>
       </van-col>
-      <van-col span="1" class="head-block">
       <van-popup v-model="show_user_info" position="left" :style="{ height: '100%',width:'61.8%' }">
         <div v-if="userinfo">
-          <div class="face-head">
+          <div class="face-head" @click="$router.push('/myinfo')">
+              <img v-if="userinfo.avatar" :src="userinfo.avatar" alt="" class="background_img">
               <img :src="userinfo.avatar" alt="" class="box-my-avatar">
               <p class="face-name">{{userinfo.nickname}}</p>
           </div>
           <div class="fans-box">
-            <span>
+            <span @click="$router.push('/index/mine')">
               <p>{{userinfo.befun_count}}</p>
               <p>关注</p>
             </span>
-            <span>
+            <span @click="$router.push('/index/news')">
               <p>{{userinfo.thing_count}}</p>
               <p>动态</p>
             </span>
-            <span>
+            <span @click="$router.push('/index/mine')">
               <p>{{userinfo.fun_count}}</p>
               <p>粉丝</p>
             </span>
@@ -39,7 +39,7 @@
               <p class="menu-item-text">首页</p>
             </div>
             <div class="line"></div>
-            <div class="menu-item">
+            <div class="menu-item" @click="$router.push('/history')">
               <span class="menu-icon ">
                 <img src="../assets/history.png" alt="">
               </span>
@@ -53,9 +53,6 @@
               </span>
               <p class="menu-item-text">我的收藏</p>
             </div>
-
-
-
             <div class="line"></div>
             <div class="menu-item" @click="$router.push('/userinfo')">
               <span class="menu-icon ">
@@ -82,9 +79,7 @@
           </div>
         </div>
       </van-popup>
-      </van-col>
     </van-row>
-
   </div>
 </template>
 
@@ -96,7 +91,7 @@
         value: '',
         show_user_info:false,
         userinfo:null,
-        avatar:'',
+        avatar:''
       }
     },
     methods:{
@@ -170,7 +165,17 @@
   .face-head{
     height: 4rem;
     padding: .7rem;
-    background: rgba(249,249,249,0.73);
+    overflow-y: hidden;
+  }
+  .background_img{
+    filter: blur(.1rem);
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: 0;
+    height: 5.4rem;
+    z-index: -1;
+
   }
   .line{
     height: .03rem;

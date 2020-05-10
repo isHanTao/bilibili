@@ -5,13 +5,13 @@
       <van-tab  title="我的粉丝">
         <div class="peoples" v-if="fans">
           <div class="people" v-for="(item,index) in fans" :key="item.id+Math.random()+''" >
-            <div class="people-face" @click="showPeople(item.user.nickname)">
+            <div class="people-face" @click="showPeople(item.user.id)">
               <img :src="item.user.avatar" alt="">
             </div>
             <div class="people-content" >
               <div class="people-content-text">
-                <p class="people-content-name vip" @click="showPeople(item.user.nickname)">{{item.user.nickname}}</p>
-                <p class="people-content-description" @click="showPeople(item.user.nickname)">{{item.user.description}}</p>
+                <p class="people-content-name vip" @click="showPeople(item.user.id)">{{item.user.nickname}}</p>
+                <p class="people-content-description" @click="showPeople(item.user.id)">{{item.user.description}}</p>
               </div>
             </div>
             <div class="people-option" >
@@ -23,7 +23,7 @@
       </van-tab>
       <van-tab  title="我的关注">
         <div class="peoples" v-if="idols">
-          <div class="people"  v-if="item.idol" v-for="item in idols" :key="item.id+Math.random()+''" @click="showPeople(item.idol.nickname)">
+          <div class="people"  v-if="item.idol" v-for="item in idols" :key="item.id+Math.random()+''" @click="showPeople(item.idol.id)">
             <div class="people-face">
               <img :src="item.idol.avatar" alt="">
             </div>
@@ -79,8 +79,8 @@ export default {
       else
         this.$toast('取消关注['+item.user.nickname+']失败QAQ')
     },
-    showPeople(i){
-      this.$toast('查看用户['+i+']，功能还在开发中QAQ')
+    showPeople(id){
+      this.$router.push('/otherinfo/'+id)
     },
     async getFans() {
       let {data: res} = await this.$http.get('/fan/myfan');

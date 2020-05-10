@@ -2,6 +2,7 @@
   <div>
     <myhead></myhead>
     <van-tabs v-model="active" swipeable animated sticky>
+      <keep-alive>
       <van-tab :title="'动态'">
         <div class="message-boxes">
           <van-list
@@ -11,7 +12,7 @@
             @load="list_onLoad"
           >
             <div class="message-box" v-if="data.length > 0" v-for="(item,index) in data" :key="index">
-              <div class="message-head">
+              <div class="message-head" @click="$router.push('otherinfo/'+ item.user.id)">
                 <div class="message-head-avatar">
                   <img :src="item.user.avatar" alt="">
                 </div>
@@ -32,34 +33,37 @@
           </van-list>
         </div>
       </van-tab>
-      <van-tab :title="'广场'">
-        <van-pull-refresh v-model="refreshing" @refresh="onRefresh" class="right-message">
-          <div class="message-box" v-for="(item,index) in randdata" :key="index">
-            <div class="message-head">
-              <div class="message-head-avatar">
-                <img :src="item.user.avatar" alt="">
+      </keep-alive>
+      <keep-alive>
+        <van-tab :title="'广场'">
+          <van-pull-refresh v-model="refreshing" @refresh="onRefresh" class="right-message">
+            <div class="message-box" v-for="(item,index) in randdata" :key="index">
+              <div class="message-head" @click="$router.push('otherinfo/'+ item.user.id)">
+                <div class="message-head-avatar">
+                  <img :src="item.user.avatar" alt="">
+                </div>
+                <p class="message-box-title">{{item.user.nickname}}</p>
+                <span class="time">{{timeago(item.created_at)}}</span>
               </div>
-              <p class="message-box-title">{{item.user.nickname}}</p>
-              <span class="time">{{timeago(item.created_at)}}</span>
-            </div>
-            <div class="message-body">
-              <p class="message-body-text">{{item.content}}</p>
-              <div class="message-body-img-box">
-                <van-grid :border="false" :column-num="3" square clickable>
-                  <van-grid-item v-for="i in item.imgs" :key="i.url" @click="clickgrid">
-                    <img :src="i.url" alt="" class="message-body-img-item">
-                  </van-grid-item>
-                </van-grid>
+              <div class="message-body">
+                <p class="message-body-text">{{item.content}}</p>
+                <div class="message-body-img-box">
+                  <van-grid :border="false" :column-num="3" square clickable>
+                    <van-grid-item v-for="i in item.imgs" :key="i.url" @click="clickgrid">
+                      <img :src="i.url" alt="" class="message-body-img-item">
+                    </van-grid-item>
+                  </van-grid>
+                </div>
               </div>
             </div>
-          </div>
-        </van-pull-refresh>
-      </van-tab>
+          </van-pull-refresh>
+        </van-tab>
+      </keep-alive>
     </van-tabs>
-    <div class="plus" @click="$router.push('/news/write')">
+    <div class="plus" @click="$router.push('/index/news/write')">
       <img src="../assets/plus.png" alt="">
     </div>
-    <myfooter></myfooter>
+    <myfooter :my_active="2"></myfooter>
   </div>
 </template>
 

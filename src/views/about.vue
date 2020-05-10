@@ -83,16 +83,73 @@
         该系统演示系统，很多资源源自网络，如有侵权，请联系站长：
       </p>
       <span class="my-email">ishant@qq.com</span>
+      <van-cell>
+        <template #title>
+          <p class="my-version-text">当前版本号 <span style="color: #0074D9;">{{version}}</span></p>
+        </template>
+        <template #right-icon>
+          <van-button plain type="primary" size="mini" class="my-botton" @click="getLastVersionInfo">检查更新</van-button>
+        </template>
+      </van-cell>
     </div>
-
+    <van-overlay v-if="versionInfo" :show="show" @click="show = false">
+      <div class="wrapper"@click="show = false">
+        <div class="block" @click.stop>
+          <p class="title">最新版本号 {{versionInfo.version}}</p>
+          <p class="content" >更新内容 {{versionInfo.content}}</p>
+          <div class="bottons" >
+            <a target="_blank" :href="versionInfo.download_url" :underline="false" style="margin-left:15px">
+                <van-button color="#7232dd" plain size="small" @click>马上升级</van-button>
+            </a>
+            <a target="_blank" :underline="false" style="margin-left:15px">
+                <van-button color="#7232dd" plain size="small" style="margin-left: 1rem;" @click="show = false">暂不升级</van-button>
+            </a>
+          </div>
+        </div>
+      </div>
+    </van-overlay>
   </div>
 </template>
 
 <script>
   import MyTitle from '@/components/MyTitle';
   export default {
-        name: "about",
+      name: "about",
       components:{ MyTitle },
+      data() {
+        return {
+          version: '1.0',
+          show:false,
+          versionInfo:null,
+        }
+      },
+      created() {
+        this.getLastVersionInfo()
+        this.plusReady()
+      },
+      methods:{
+        plusReady(){
+         plus.runtime.getProperty(plus.runtime.appid,(inf)=>{
+              //wgtVer=inf.version;
+              console.log("当前应用版本："+inf.version+"---"+plus.runtime.version);
+              this.version = inf.version.toString();
+          });
+        },
+        async getLastVersionInfo(){
+          let {data: res} = await this.$http.get('/version');
+          if(res.code === 1){
+            this.$toast('获取版本号失败')
+          }else{
+             this.versionInfo = res.data
+             if(this.version != this.versionInfo.version){
+               this.show = true
+             }else{
+               this.$toast('已经是最新版本呢QAQ')
+             }
+          }
+          this.plusReady();
+        }
+      },
     }
 </script>
 
@@ -105,6 +162,22 @@
   }
   .about{
     height: 100%;
+  }
+  .title{
+    text-align: center;
+    font-size: .4rem;
+  }
+  .content{
+    font-size: .3rem;
+    line-height: 1rem;
+    padding: .2rem;
+  }
+  .bottons{
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    width: 100%;
+    bottom: 1rem;
   }
   .about-content{
     height: 80%;
@@ -122,4 +195,27 @@
     width: 2.5rem;
     text-align: center;
   }
+  .my-version-text{
+    font-size: .4rem;
+    font-weight: bold;
+  }
+  .my-botton{
+    position: absolute;
+    top: 50%;
+    right: 1rem;
+    transform: translateY(-50%);
+  }
+   .wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+    }
+
+    .block {
+      width: 80%;
+      min-height: 7rem;
+      background-color: #fff;
+      position: fixed;
+    }
 </style>

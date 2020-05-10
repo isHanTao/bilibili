@@ -6,7 +6,7 @@ document.addEventListener('plusready', function () {
   plus.key.addEventListener('backbutton', function () {
     webview.canBack(function (e) {
       let url = window.location.hash;
-      if (url === '#/' || url === '#/channel' || url === '#/news' || url === '#/mine') {
+      if (url === '#/index/main' || url === '#/index/channel' || url === '#/index/news' || url === '#/index/mine') {
         if (!first){
           first = new Date().getTime();
           console.log('再次点击退出应用');

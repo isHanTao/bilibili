@@ -20,7 +20,7 @@
         </div>
         <button class="my-button" @click="login">注 册</button>
         <p class="my-tips">登录就表示你同意 <span>用户协议</span> ，和<span>隐私策略</span> </p>
-        <p class="my-tips"><span @click="$router.push('/login')">返回登录</span> </p>
+        <button class="my-button my-button-login" @click="$router.push('/login')">返回登录</button>
       </div>
     </div>
   </div>
@@ -61,7 +61,7 @@
         }
         window.localStorage.setItem('token', 'Bearer ' + res.data.access_token);
         this.$toast('登录成功');
-        this.$router.push('/');
+        this.$router.push('/index/main');
       },
     }
   }
@@ -105,7 +105,7 @@
   .inputs {
     padding: .5rem;
     position: absolute;
-    top: 30%;
+    top: 45%;
     left: 50%;
     width: 80%;
     font-size: .5rem;
@@ -137,5 +137,10 @@
     line-height: 1rem;
     background: #ffb1c1;
     color: white;
+  }
+  .my-button-login{
+    width: 50%;
+    background: ##9fc171;
+    float: left;
   }
 </style>

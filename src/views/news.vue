@@ -5,6 +5,7 @@
       <keep-alive>
       <van-tab :title="'动态'">
         <div class="message-boxes">
+          <van-pull-refresh v-model="refreshing_my" @refresh="onRefreshmy">
           <van-list
             v-model="list_loading"
             :finished="list_finished"
@@ -31,6 +32,7 @@
               </div>
             </div>
           </van-list>
+          </van-pull-refresh>
         </div>
       </van-tab>
       </keep-alive>
@@ -79,6 +81,7 @@
         msg: 'Welcome to Your Vue.js App',
         list_loading: false,
         refreshing: false,
+        refreshing_my:false,
         list_finished: false,
         pageNum: 1,
         count:0,
@@ -106,18 +109,24 @@
         if (res.code === 0) {
           this.data = this.data.concat(res.data);
           this.count = res.count;
+          this.refreshing_my = false;
           this.list_loading = false;
         }
       },
       getThingsRandList: async function () {
         let {data: res} = await this.$http.get('/thing/list/rand');
         if (res.code === 0) {
-          if (this.randdata.length> 30){
+          if (this.randdata.length> 20){
             this.randdata = this.randdata.slice(6,this.randdata.length-1)
           }
           this.randdata = res.data.concat(this.randdata);
           this.refreshing = false;
         }
+      },
+      onRefreshmy() {
+        this.pageNum = 1;
+        this.data = [];
+        this.getThingsList();
       },
       onRefresh() {
         this.getThingsRandList();

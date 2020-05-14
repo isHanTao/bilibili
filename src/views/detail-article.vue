@@ -138,7 +138,8 @@ export default {
     async collect() {
       let {data: res} = await this.$http.post('/article/collect/'+this.article.id);
       if (res.code == 0){
-        this.$toast('操作成功QAQ');
+        this.$toast('收藏成功QAQ');
+        this.article.collect_num++;
       }
       else
         this.$toast('操作失败QAQ')
@@ -147,6 +148,7 @@ export default {
       let {data: res} = await this.$http.post('/article/comment/'+this.article.id,{content:this.content});
       if (res.code == 0){
         this.getComment();
+        this.article.com_num++;
         this.$toast('评论成功');
       }
       else

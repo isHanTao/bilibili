@@ -2,21 +2,23 @@
    <keep-alive>
 <div>
       <MyTitle :title="'历史记录'"></MyTitle>
-      <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-        <div style="width: 100%;">
-          <div class="list-item" v-if="item.article" v-for="item in articles" :key="item.id+Math.random()+''" @click="$router.push('/detail/'+item.id)">
-            <img :src="item.article.poster" alt="">
-            <div class="list-item-text">
-              <p class="list-item-text-title van-ellipsis">{{item.article.title}}</p>
-              <van-tag round type="danger">{{tranNumber(item.article.hot_num,1)}}热度</van-tag>
-              <p class="list-item-text-detail">
-                <span>{{timeago(item.created_at)}}</span>
-              </p>
+      <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
+        <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
+          <div style="width: 100%;">
+            <div class="list-item" v-if="item.article" v-for="item in articles" :key="item.id+Math.random()+''" @click="$router.push('/detail/'+item.id)">
+              <img :src="item.article.poster" alt="">
+              <div class="list-item-text">
+                <p class="list-item-text-title van-ellipsis">{{item.article.title}}</p>
+                <van-tag round type="danger">{{tranNumber(item.article.hot_num,1)}}热度</van-tag>
+                <p class="list-item-text-detail">
+                  <span>{{timeago(item.created_at)}}</span>
+                </p>
+              </div>
             </div>
+            <div v-else></div>
           </div>
-          <div v-else></div>
-        </div>
-      </van-list>
+        </van-list>
+      </van-pull-refresh>
       </div>
     </keep-alive>
 </template>
@@ -30,6 +32,7 @@
         msg: 'Welcome to Your Vue.js App',
         loading: true,
         finished: false,
+        refreshing: false,
         articles: [],
         articlecount: 0,
         page: 1,
@@ -44,6 +47,8 @@
         }
       },
       onRefresh() {
+        this.page =  1;
+        this.articles = [];
         this.getList();
       },
       async getList() {
@@ -54,10 +59,11 @@
         this.articles = this.articles.concat(res.data);
         this.loading = false;
         this.articlecount = res.count;
-        console.log(this.articlecount)
+        console.log(this.articlecount);
         if (this.articlecount <= this.articles.length) {
           this.finished = true;
         }
+        this.refreshing = false;
       },
       timeago(timestr) { //dateTimeStamp是一个时间毫秒，注意时间戳是秒的形式，在这个毫秒的基础上除以1000，就是十位数的时间戳。13位数的都是时间毫秒。
         timestr = timestr.replace(/-/g, '/');

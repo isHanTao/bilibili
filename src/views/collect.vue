@@ -2,27 +2,30 @@
   <div class="collect_content">
     <MyTitle :title="'我的收藏'"></MyTitle>
     <div class="real-content">
-      <van-list
-        v-model="loading"
-        :finished="collects_finished"
-        finished-text="没有更多了"
-        @load="collectOnLoad"
-      >
-        <div style="width: 100%; padding: .3rem  .1rem">
-          <div class="list-item" v-for="item in collects" :key="item.id+Math.random()+''"
-               @click="$router.push('/detail/'+item.id)">
-            <img :src="item.poster" alt="">
-            <div class="list-item-text">
-              <p class="list-item-text-title van-ellipsis">{{item.title}}</p>
-              <van-tag round type="warning">{{tranNumber(item.zan,1)}}点赞</van-tag>
-              <van-tag round type="danger">{{tranNumber(item.hot_num,1) }}热度</van-tag>
-              <p class="list-item-text-detail">
-                <span>{{timeago(item.created_at)}}</span>
-              </p>
+      <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
+        <van-list
+          v-model="loading"
+          :finished="collects_finished"
+          finished-text="没有更多了"
+          @load="collectOnLoad"
+        >
+          <div style="width: 100%; padding: .3rem  .1rem">
+            <div class="list-item" v-for="item in collects" :key="item.id+Math.random()+''"
+                 @click="$router.push('/detail/'+item.id)">
+              <img :src="item.poster" alt="">
+              <div class="list-item-text">
+                <p class="list-item-text-title van-ellipsis">{{item.title}}</p>
+                <van-tag round type="warning">{{tranNumber(item.zan,1)}}点赞</van-tag>
+                <van-tag round type="danger">{{tranNumber(item.hot_num,1) }}热度</van-tag>
+                <p class="list-item-text-detail">
+                  <span>{{timeago(item.created_at)}}</span>
+                </p>
+              </div>
             </div>
           </div>
-        </div>
-      </van-list>
+        </van-list>
+      </van-pull-refresh>
+
     </div>
   </div>
 </template>
@@ -37,6 +40,7 @@
       return {
         collects:[],
         loading:false,
+        refreshing: false,
         collects_finished:false,
         page:1,
         count:0,
@@ -52,13 +56,18 @@
           await this.getCollectList();
         }
       },
+      onRefresh() {
+        this.page = 1;
+        this.collects = [];
+        this.getCollectList();
+      },
       async getCollectList() {
         this.loading = true
         let {data: res} = await this.$http.get('/article/collect/list?limit=10&page=' + this.page);
         this.collects = this.collects.concat(res.data);
         this.loading = false
         this.count =res.count;
-        console.log(res.count)
+        this.refreshing = false;
         if (this.count <= this.collects.length) {
           this.collects_finished = true;
         }

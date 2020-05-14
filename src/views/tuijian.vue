@@ -1,5 +1,6 @@
 <template>
     <keep-alive>
+      <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
       <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
         <div style="width: 100%; padding: .3rem  .1rem">
           <div class="list-item" v-for="item in articles" :key="item.id+Math.random()+''" @click="$router.push('/detail/'+item.id)">
@@ -15,6 +16,7 @@
           </div>
         </div>
       </van-list>
+      </van-pull-refresh>
     </keep-alive>
 </template>
 
@@ -26,6 +28,7 @@
         msg: 'Welcome to Your Vue.js App',
         loading: true,
         finished: false,
+        refreshing: false,
         articles: [],
         articlecount: 0,
         page: 1,
@@ -40,6 +43,8 @@
         }
       },
       onRefresh() {
+        this.articles = [];
+        this.page = 1;
         this.getList();
       },
       async getList() {
@@ -50,7 +55,7 @@
         this.articles = this.articles.concat(res.data);
         this.loading = false;
         this.articlecount = res.count;
-        console.log(this.articlecount)
+        this.refreshing = false;
         if (this.articlecount >= this.articles.length) {
           this.finished = false;
         }else{
